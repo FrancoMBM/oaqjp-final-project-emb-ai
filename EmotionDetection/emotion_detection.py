@@ -7,10 +7,24 @@ def emotion_detection(text_to_analyze):
     header  = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
     obj =  { "raw_document": { "text": text_to_analyze } }
     response = requests.post(url=url, headers = header, json = obj)
-    formatted_output = json.loads(response.text)
     
-    emotion_predictions = formatted_output['emotionPredictions'][0]['emotion']
-    dominant_emotion = [key for key, value in emotion_predictions.items() if value == max(emotion_predictions.values())]
-    emotion_predictions['dominant_emotion'] = dominant_emotion[0]
+    if str(response.status_code) == '400':
 
-    return emotion_predictions
+        empty_output = {
+                        "anger": None, 
+                        "disgust": None, 
+                        "fear": None, 
+                        "joy": None, 
+                        "sadness": None, 
+                        "dominant_emotion":None
+                        }
+        return empty_output
+
+    else:
+
+        formatted_output = json.loads(response.text)
+        emotion_predictions = formatted_output['emotionPredictions'][0]['emotion']
+        dominant_emotion = [key for key, value in emotion_predictions.items() if value == max(emotion_predictions.values())]
+        emotion_predictions['dominant_emotion'] = dominant_emotion[0]
+
+        return emotion_predictions
