@@ -1,6 +1,6 @@
 """Main Server App"""
 from flask import Flask, render_template, request
-from EmotionDetection.emotion_detection import emotion_detection
+from EmotionDetection.emotion_detection import emotion_detector
 
 app = Flask("Emotion Detection Tool")
 
@@ -13,7 +13,7 @@ def emotion_analyzer():
     # Retrieving the text from the form
     text_to_analyze = request.args.get("textToAnalyze")
     # Passing retrieved text to emotion detector
-    response = emotion_detection(text_to_analyze)
+    response = emotion_detector(text_to_analyze)
 
     if response['dominant_emotion'] is None:
         return "<b>Invalid text!, Please try again!<b>"
