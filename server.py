@@ -11,9 +11,9 @@ def emotion_analyzer():
     """Emotion Analized function that takes input from
     html form"""
     # Retrieving the text from the form
-    text_to_analyze = request.args.get("textToAnalyze")
+    text_to_analyse = request.args.get("textToAnalyze")
     # Passing retrieved text to emotion detector
-    response = emotion_detector(text_to_analyze)
+    response = emotion_detector(text_to_analyse)
 
     if response['dominant_emotion'] is None:
         return "<b>Invalid text!, Please try again!<b>"
